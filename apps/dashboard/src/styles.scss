@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* You can add global styles to this file, and also import other style files */
+.form-field {
+  input,
+  select,
+  textarea {
+    @apply bg-white text-base text-black border border-[#656567] px-2 py-1 block w-full shadow-none outline-none;
+    &::placeholder {
+      @apply font-normal text-black opacity-40;
+    }
+  }
+  input,
+  textarea {
+    &.read-only {
+      @apply pointer-events-none opacity-70 select-none;
+    }
+  }
+}
+
+.form-label {
+  @apply block text-base mb-1 last:mb-0 font-normal;
+}
+
+.site-btn {
+  @apply border border-[#B6B5B4] p-1;
+  span {
+    @apply text-base py-1 px-[46px] inline-block;
+  }
+  &.green-border-btn {
+    span {
+      @apply bg-green-600 text-white;
+    }
+  }
+  &.grey-border-btn {
+    span {
+      @apply bg-[#363525] text-white;
+    }
+  }
+}
+
+.pagination {
+  @apply px-5 py-4 rounded-3xl mt-2 flex flex-col md:flex-row items-center justify-between gap-5 bg-white border border-[#DBDBDB];
+
+  .custom-select-wrap {
+    @apply h-[36px] py-0;
+
+    select {
+      @apply text-black text-[14px];
+    }
+
+    i {
+      @apply bg-black h-3 w-3;
+    }
+  }
+
+  .pagination-nav {
+    @apply flex justify-end gap-1.5 items-center;
+
+    button,
+    .page-number {
+      @apply flex items-center justify-center rounded-full cursor-pointer transition-all duration-300 w-[34px] h-[34px] bg-white border border-[#0000001A] text-[12px] text-[#666666] hover:bg-[lightblue] hover:text-black hover:border-[lightblue];
+    }
+
+    .custom-select-wrap {
+      @apply h-[36px] py-0;
+
+      .custom-select {
+        @apply text-black !h-[36px] text-[14px];
+      }
+      select {
+        @apply text-black !h-[36px] text-[14px];
+      }
+
+      i {
+        @apply bg-black h-3 w-3;
+      }
+    }
+
+    .page-number {
+      &.active {
+        @apply bg-[lightblue] border-[lightblue] text-black cursor-default;
+      }
+    }
+  }
+}

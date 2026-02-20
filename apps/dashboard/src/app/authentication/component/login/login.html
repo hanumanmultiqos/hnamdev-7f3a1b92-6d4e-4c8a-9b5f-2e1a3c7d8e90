@@ -1,0 +1,82 @@
+<div class="flex items-center justify-center h-dvh p-4">
+  <div
+    class="border border-black max-w-[540px] w-full bg-[#DADADA] shadow-[0px_0px_20px_0px_#00000026]"
+  >
+    <h1 class="text-lg text-left bg-white m-0 md:px-3.5 p-2 md:py-3">Login</h1>
+
+    <div
+      class="py-2.5 px-2.5 md:px-8 max-h-[calc(100dvh-82px)] overflow-y-auto"
+    >
+      <div class="text-center mb-3 md:mb-6 last:mb-0">
+        <img
+          alt="logo"
+          class="w-full max-w-[66px] md:max-w-[88px] max-h-[81px] mx-auto"
+          src="favicon.ico"
+        />
+      </div>
+
+      <form id="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div
+          class="form-field flex flex-col md:flex-row md:justify-end md:items-center gap-1 md:gap-2.5 mb-4 last:mb-0"
+        >
+          <label for="email" class="text-base md:text-xl font-semibold"
+            >Email:</label
+          >
+
+          <div class="relative md:max-w-[298px] w-full">
+            <input
+              id="email"
+              name="email"
+              required
+              type="text"
+              formControlName="email"
+            />
+
+            @if ( loginForm.controls['email'].invalid &&
+            (loginForm.controls['email'].dirty ||
+            loginForm.controls['email'].touched) ) {
+            <span id="emailError" class="text-red text-xs absolute top-full"
+              >Email is required</span
+            >
+            }
+          </div>
+        </div>
+
+        <div
+          class="form-field flex flex-col md:flex-row md:justify-end md:items-center gap-1 md:gap-2.5 mb-4 last:mb-0"
+        >
+          <label for="password" class="text-base md:text-xl font-semibold"
+            >Password:</label
+          >
+
+          <div class="relative md:max-w-[298px] w-full">
+            <input
+              class="col-span-2"
+              id="password"
+              name="password"
+              required
+              [autocomplete]="false"
+              type="password"
+              aria-autocomplete="none"
+              formControlName="password"
+            />
+
+            @if ( loginForm.controls['password'].invalid &&
+            (loginForm.controls['password'].dirty ||
+            loginForm.controls['password'].touched) ) {
+            <span id="passwordError" class="text-red text-xs absolute top-full"
+              >Password is required</span
+            >
+            }
+          </div>
+        </div>
+
+        <div class="text-center">
+          <button class="site-btn green-border-btn">
+            <span id="submitBtn" type="button">Login</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

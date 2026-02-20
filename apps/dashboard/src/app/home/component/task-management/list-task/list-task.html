@@ -1,0 +1,183 @@
+<div class="max-w-6xl mx-auto p-4">
+  <div class="flex items-center justify-between mb-6 flex-wrap">
+    <div class="flex gap-3 items-center flex-wrap">
+      <div class="">
+        <div class="">
+          <input
+            class="!bg-bgcolor px-4 py-2 bor border-[1px]"
+            type="search"
+            placeholder="Search Here..."
+            [(ngModel)]="query.search"
+            (ngModelChange)="applySearch($event)"
+          />
+        </div>
+      </div>
+
+      @if(user() !== 'VIEWER' ){
+      <button
+        (click)="addEditTask('')"
+        type="button"
+        class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+      >
+        <svg
+          class="-ml-1 mr-2 h-5 w-5 text-white"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          />
+        </svg>
+        Add Task
+      </button>
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-col">
+    <div class="overflow-x-auto border border-gray-200 sm:rounded-lg shadow-sm">
+      <table
+        class="min-w-full border border-gray-200 rounded-lg overflow-hidden"
+      >
+        <!-- HEADER -->
+        <thead class="bg-gray-100 text-gray-700 text-sm uppercase">
+          <tr>
+            <th class="px-4 py-3 text-left">No</th>
+
+            <th
+              class="px-4 py-3 text-left cursor-pointer select-none"
+              (click)="sort('title')"
+              (keydown.enter)="sort('title')"
+            >
+              <div class="flex items-center gap-2">
+                <span>Title</span>
+                <i
+                  class="w-4 h-4 transition-transform duration-200"
+                  [ngClass]="query.sortOrder === 'ASC' && query.sortBy === 'title'
+                      ? ''
+                      : 'scale-x-[-1]'"
+                ></i>
+              </div>
+            </th>
+
+            <th class="px-4 py-3 text-left">Description</th>
+            <th class="px-4 py-3 text-left">Category</th>
+            <th class="px-4 py-3 text-left">Created By</th>
+            <th class="px-4 py-3 text-left">Created At</th>
+            <th class="px-4 py-3 text-left">Status</th>
+            @if(user() !== 'VIEWER' ){
+            <th class="px-4 py-3 text-center w-56">Actions</th>
+            }
+          </tr>
+        </thead>
+
+        <!-- BODY -->
+        <tbody
+          class="divide-y divide-gray-200 text-sm text-gray-700"
+          cdkDropList
+          [cdkDropListData]="list()"
+          (cdkDropListDropped)="drop($event)"
+        >
+          @if (list() && list().length > 0) { @for (data of list(); track data)
+          {
+          <tr class="hover:bg-gray-50 transition-colors duration-150" cdkDrag>
+            <td class="px-4 py-3">
+              {{ (query.page - 1) * query.limit + ($index + 1) }}
+            </td>
+
+            <td class="px-4 py-3 capitalize">{{ data?.title || '-' }}</td>
+
+            <td class="px-4 py-3 capitalize">{{ data?.description || '-' }}</td>
+
+            <td class="px-4 py-3 capitalize">{{ data?.category || '-' }}</td>
+            <td class="px-4 py-3 capitalize">
+              {{ data?.createdBy?.username || '-' }}
+            </td>
+            <td class="px-4 py-3 capitalize">
+              {{ (data?.createdBy?.createdAt | date:'dd/MM/yyyy hh:mm') || '-'
+              }}
+            </td>
+
+            <td class="px-4 py-3 capitalize">{{ data?.status || '-' }}</td>
+            @if(user() !== 'VIEWER' ){
+            <td
+              class="px-4 py-3 text-center"
+              (click)="$event.stopPropagation()"
+              (keydown.enter)="$event.stopPropagation()"
+            >
+              <div class="flex items-center justify-center gap-2">
+                <button class="h-8 w-8 p-2" (click)="addEditTask(data?.id)">
+                  <svg
+                    fill="#000000"
+                    version="1.1"
+                    id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 0 528.899 528.899"
+                    xml:space="preserve"
+                  >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <g>
+                        <path
+                          d="M328.883,89.125l107.59,107.589l-272.34,272.34L56.604,361.465L328.883,89.125z M518.113,63.177l-47.981-47.981 c-18.543-18.543-48.653-18.543-67.259,0l-45.961,45.961l107.59,107.59l53.611-53.611 C532.495,100.753,532.495,77.559,518.113,63.177z M0.3,512.69c-1.958,8.812,5.998,16.708,14.811,14.565l119.891-29.069 L27.473,390.597L0.3,512.69z"
+                        ></path>
+                      </g>
+                    </g>
+                  </svg>
+                </button>
+                @if(user() === "OWNER" ){
+                <button class="h-8 w-8 p-2" (click)="deleteTask(data?.id)">
+                  <svg
+                    fill="#000000"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        d="M5.755,20.283,4,8H20L18.245,20.283A2,2,0,0,1,16.265,22H7.735A2,2,0,0,1,5.755,20.283ZM21,4H16V3a1,1,0,0,0-1-1H9A1,1,0,0,0,8,3V4H3A1,1,0,0,0,3,6H21a1,1,0,0,0,0-2Z"
+                      ></path>
+                    </g>
+                  </svg></button
+                >}
+                <!-- Action buttons go here -->
+              </div>
+            </td>
+            }
+          </tr>
+          } } @if (!list() || list().length === 0) {
+          <tr>
+            <td colspan="6" class="px-4 py-6 text-center text-gray-500">
+              No Data Found
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+  @if(list().length > 0) {
+  <app-custom-pagination
+    (changeItem)="changeItemsPerPage($event)"
+    (pageChanged)="pageChange($event)"
+    [currentPage]="query.page"
+    [perPage]="query.limit"
+    [totalCount]="totalItem()"
+  ></app-custom-pagination>
+  }
+</div>

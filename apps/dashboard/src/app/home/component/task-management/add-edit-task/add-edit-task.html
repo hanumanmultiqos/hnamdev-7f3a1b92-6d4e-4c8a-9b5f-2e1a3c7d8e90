@@ -1,0 +1,137 @@
+<div class="flex items-center justify-center bg-gray-100 p-4">
+  <form
+    [formGroup]="taskForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-white p-6 rounded-lg shadow-md w-full max-w-md space-y-4"
+  >
+    <div class="flex items-center gap-2">
+      <button type="button" class="w-5 h-5" (click)="goBack()">
+        <svg
+          viewBox="0 0 1024 1024"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="#000000"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              fill="#000000"
+              d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+            ></path>
+            <path
+              fill="#000000"
+              d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+            ></path>
+          </g>
+        </svg>
+      </button>
+      <h2 class="text-2xl font-semibold text-gray-700">{{editMode}} Task</h2>
+    </div>
+
+    <!-- Title -->
+    <div>
+      <label for="" class="block text-gray-600 mb-1">Title</label>
+      <input
+        formControlName="title"
+        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+        placeholder="Enter task title"
+      />
+      @if(taskForm.get('title')?.touched && taskForm.get('title')?.invalid){
+      <p class="text-red-500 text-sm mt-1">
+        Title is required and should be at least 3 characters.
+      </p>
+      }
+    </div>
+
+    <!-- Description -->
+    <div>
+      <label for="" class="block text-gray-600 mb-1">Description</label>
+      <textarea
+        formControlName="description"
+        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+        placeholder="Enter task description"
+        rows="3"
+      ></textarea>
+      @if(taskForm.get('description')?.touched &&
+      taskForm.get('description')?.invalid){
+      <p class="text-red-500 text-sm mt-1">
+        Description is required and should be at least 5 characters.
+      </p>
+      }
+    </div>
+
+    <!-- Category -->
+    <div>
+      <label for="" class="block text-gray-600 mb-1">Category</label>
+      <select
+        formControlName="category"
+        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        <option value="">Select category</option>
+        @for (cat of categories; track $index) {
+        <option [value]="cat">{{ cat }}</option>
+        }
+      </select>
+      @if (taskForm.get('category')?.touched &&
+      taskForm.get('category')?.invalid) {
+      <p class="text-red-500 text-sm mt-1">Category is required.</p>
+      }
+    </div>
+
+    <!-- Status -->
+    <div>
+      <label for="" class="block text-gray-600 mb-1">Status</label>
+      <select
+        formControlName="status"
+        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        <option value="">Select status</option>
+        @for (status of statuses; track $index) {
+        <option [value]="status">{{ status }}</option>
+        }
+      </select>
+      @if (taskForm.get('status')?.touched && taskForm.get('status')?.invalid) {
+      <p class="text-red-500 text-sm mt-1">Status is required.</p>
+      }
+    </div>
+
+    <!-- Assigned To -->
+    <div>
+      <label for="" class="block text-gray-600 mb-1">Assigned To</label>
+      <select
+        formControlName="assignedToId"
+        class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+        <option value="">Select assigned to</option>
+        @for (user of userList(); track $index) {
+        <option [value]="user?.id">{{ user?.username }}</option>
+        }
+      </select>
+      @if(taskForm.get('assignedToId')?.touched &&
+      taskForm.get('assignedToId')?.invalid){
+      <p class="text-red-500 text-sm mt-1">
+        AssignedToId is required and must be a valid UUID.
+      </p>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors"
+    >
+      Submit
+    </button>
+
+    <button
+      type="button"
+      (click)="goBack()"
+      class="w-full bg-white text-black py-2 rounded hover:bg-blue-600 transition-colors"
+    >
+      Cancel
+    </button>
+  </form>
+</div>

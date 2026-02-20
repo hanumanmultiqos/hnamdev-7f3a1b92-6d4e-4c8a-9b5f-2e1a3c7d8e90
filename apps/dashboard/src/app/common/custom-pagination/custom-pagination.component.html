@@ -1,0 +1,42 @@
+<div class="pagination">
+  <div class="flex gap-4 items-center">
+    @if (!parentComp) {
+      <div class="custom-select-wrap !text-fs12">
+        <select
+          class="custom-select !align-middle"
+          [(ngModel)]="perPage"
+          (change)="changeItemsPerPage(perPage)"
+        >
+          @for (option of [10, 20, 50, 100]; track option) {
+            <option [value]="option">{{ option }}</option>
+          }
+        </select>
+        <i class="icon icon-arrow-down"></i>
+      </div>
+    }
+    <p class="text-black10 mb-0 text-fs12">
+      Total Records: <span>{{ totalCount }}</span>
+    </p>
+  </div>
+
+  <!-- Pagination Nav -->
+  <div class="pagination-nav">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">
+      <i><</i>
+    </button>
+    @for (page of pages; track page) {
+      <button
+        class="page-number"
+        [class.active]="page === currentPage"
+        [class.dots]="page === '...'"
+        [disabled]="page === '...'"
+        (click)="page !== '...' && goToPage(+page)"
+      >
+        {{ page }}
+      </button>
+    }
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">
+      <i class="text-[14px] bg-transparent text-black"> > </i>
+    </button>
+  </div>
+</div>
