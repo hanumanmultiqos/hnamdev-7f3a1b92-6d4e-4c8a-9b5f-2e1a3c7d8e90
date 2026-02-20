@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "dashboard/src",
+  "sourceRoot": "apps/dashboard/src",
   "tags": [],
   "targets": {
     "build": {
@@ -11,16 +11,16 @@
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/dashboard",
-        "browser": "dashboard/src/main.ts",
-        "tsConfig": "dashboard/tsconfig.app.json",
+        "browser": "apps/dashboard/src/main.ts",
+        "tsConfig": "apps/dashboard/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "dashboard/public"
+            "input": "apps/dashboard/public"
           }
         ],
-        "styles": ["dashboard/src/styles.scss"]
+        "styles": ["apps/dashboard/src/styles.scss"]
       },
       "configurations": {
         "production": {
@@ -64,7 +64,7 @@
       "executor": "@nx/web:file-server",
       "options": {
         "buildTarget": "dashboard:build",
-        "staticFilePath": "dist/dashboard/browser",
+        "staticFilePath": "dist/apps/dashboard/browser",
         "spa": true
       }
     }

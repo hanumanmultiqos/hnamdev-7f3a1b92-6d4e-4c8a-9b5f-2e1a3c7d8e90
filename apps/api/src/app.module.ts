@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 
@@ -19,7 +20,7 @@ import { AppController } from './app.controller';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: 'apps/api/.env',
+      envFilePath: join(process.cwd(), 'apps/api/.env'),
     }),
     DatabaseModule,
 

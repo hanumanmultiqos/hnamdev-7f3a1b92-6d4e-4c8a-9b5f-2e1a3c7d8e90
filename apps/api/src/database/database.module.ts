@@ -6,7 +6,7 @@ import { join } from 'path';
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: join(__dirname, '..', 'database', 'database.sqlite'),
+      database: join(process.cwd(), 'apps/api/database/database.sqlite'),
       autoLoadEntities: true,
       synchronize: true,
     }),

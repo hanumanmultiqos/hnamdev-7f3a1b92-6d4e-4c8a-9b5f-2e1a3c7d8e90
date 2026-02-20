@@ -1,77 +1,116 @@
-# Hnamdev7f3a1b926d4e4c8a9b5f2e1a3c7d8e90
+# Secure Task Management System
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A full-stack monorepo managed with **Nx**, featuring a **NestJS API** and an **Angular Dashboard**.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+---
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## 🚀 Quick Start
 
-## Finish your CI setup
+### 1. Backend Setup (API)
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/eVDqt2e5QH)
+The API manages the SQLite database and authentication.
 
+**Initialize Environment:**
 
-## Run tasks
-
-To run tasks with Nx use:
-
-```sh
-npx nx <target> <project-name>
+```bash
+cp apps/api/.env.sample apps/api/.env
 ```
 
-For example:
+**Configure Variables:**
 
-```sh
-npx nx build myproject
+Open `apps/api/.env` and define your secrets:
+
+| Variable | Description |
+|---|---|
+| `PORT` | The port the API runs on (e.g., `3000`) |
+| `JWT_SECRET` | A strong secret used for signing tokens |
+
+---
+
+### 2. Frontend Setup (Dashboard)
+
+The Angular dashboard relies on a static configuration file for API communication.
+
+**Configure API URL:**
+
+Open `apps/dashboard/public/config/config.json` and ensure it matches your API port:
+
+```json
+{
+  "apiUrls": {
+    "BASE_URL": "http://localhost:3000/",
+    "TIMEOUT": 60000
+  }
+}
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+> **Note:** If you change the `PORT` in your API `.env`, you must update `BASE_URL` here to match.
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-## Add new projects
+## 🛠 Running the Workspace
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+**1. Install Dependencies:**
 
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+```bash
+npm install
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+**2. Start Development Servers** *(run in separate terminal windows)*:
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
+```bash
+# Backend
+npx nx serve api
 
-# Generate a library
-npx nx g @nx/react:lib some-lib
+# Frontend
+npx nx serve dashboard
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+---
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## 🔐 Default Login Credentials
 
+After seeding, use the following accounts to test different permission levels.
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+> **Default Password:** `123456` *(or as defined in your seeder)*
 
-## Install Nx Console
+| Role | Email | Username |
+|---|---|---|
+| Owner | `owner@example.com` | `owner` |
+| Admin | `admin@example.com` | `admin` |
+| Viewer | `viewer@example.com` | `viewer` |
+| Viewer | `viewer1@example.com` | `viewer1` |
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+---
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## 📖 API Documentation (Swagger)
 
-## Useful links
+Once the API is running, interactive Swagger docs are available at:
 
-Learn more:
+**URL:** `http://localhost:3000/docs`
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+To test protected routes, click the **Authorize** button and paste your JWT Bearer token.
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
+
+## 📋 Useful Nx Commands
+
+| Action | Command |
+|---|---|
+| Build All | `npx nx run-many -t build` |
+| Visualize Project Graph | `npx nx graph` |
+| Reset Cache | `npx nx reset` |
+| Kill Stuck Node Tasks | `pkill -9 node` |
+
+---
+
+## ⚠️ Common Issues
+
+**CORS Blocked**
+Ensure `app.enableCors()` is enabled in `apps/api/src/main.ts`.
+
+**Port Mismatch**
+If the API starts on a different port (e.g., `4000`), update both `config.json` and the Swagger URL accordingly.
+
+**Database Path**
+The SQLite file is stored at `apps/api/database/database.sqlite`.
