@@ -68,6 +68,9 @@ npx nx serve dashboard
 
 ---
 
+## Open Dashboard In Browser
+**URL:** `http://localhost:4200`
+
 ## 🔐 Default Login Credentials
 
 After seeding, use the following accounts to test different permission levels.
